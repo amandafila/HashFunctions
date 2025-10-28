@@ -11,7 +11,7 @@ public abstract class HashMap {
 
     public abstract int hashFunction(String key);
 
-    public abstract void put(String key, Object value);
+    public abstract void put(String key);
 
     public abstract Object get(String key);
 

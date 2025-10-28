@@ -11,7 +11,7 @@ public class HashMapFunction1 extends HashMap {
     }
 
     @Override
-    public void put(String key, Object value) {
+    public void put(String key) {
         int valor =  hashFunction(key);
         if (hashTable[valor] == null) {
             hashTable[valor] = new DLL();
@@ -20,8 +20,23 @@ public class HashMapFunction1 extends HashMap {
     }
 
     @Override
-    public Object get(String key) {return null;}
+    public Object get(String key) {
+        int valor =  hashFunction(key);
+        if (hashTable[valor] != null) {
+            return valor;
+        }else{
+            System.out.println("Elemento não encontrado");
+            return null;
+        }
+    }
 
     @Override
-    public void remove(String key) {}
+    public void remove(String key) {
+        int valor =  hashFunction(key);
+        if (hashTable[valor] != null) {
+            hashTable[valor].remove(key);
+        }else{
+            System.out.println("Elemento não encontrado");
+        }
+    }
 }
