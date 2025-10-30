@@ -2,6 +2,7 @@ package HashMap;
 import DLL.*;
 
 public class HashMapFunction1 extends HashMap {
+    private int nColisoes = 0;
 
     @Override
     public int hashFunction(String key) {
@@ -15,6 +16,8 @@ public class HashMapFunction1 extends HashMap {
         int valor =  hashFunction(key);
         if (hashTable[valor] == null) {
             hashTable[valor] = new DLL();
+        }else{
+            nColisoes++;
         }
         hashTable[valor].add(key);
     }
@@ -38,5 +41,26 @@ public class HashMapFunction1 extends HashMap {
         }else{
             System.out.println("Elemento não encontrado");
         }
+    }
+
+    public int returnColisoes(){
+        return nColisoes;
+    }
+
+    public String qtdeBuckets() {
+        StringBuilder resultado = new StringBuilder();
+
+        for (int i = 0; i < hashTable.length; i++) {
+            if (hashTable[i] != null) {
+                resultado.append("Bucket ").append(i)
+                        .append(": ").append(hashTable[i].getSize())
+                        .append(" elementos\n");
+            } else {
+                resultado.append("Bucket ").append(i)
+                        .append(": vazio\n");
+            }
+        }
+
+        return resultado.toString();
     }
 }

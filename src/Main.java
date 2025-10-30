@@ -1,19 +1,14 @@
 import HashMap.*;
+import LeituraArquivo.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        HashMapFunction2 map = new HashMapFunction2();
-        System.out.println(map.hashFunction("carlos"));
-        System.out.println(map.hashFunction("Amanda"));
-        System.out.println(map.hashFunction("Mateus"));
+        HashMapFunction1 map = new HashMapFunction1();
 
-        map.put("carlos");
-        map.put("Amanda");
-        map.put("Mateus");
+        LeituraArquivo.carregarArquivo("src/LeituraArquivo/female_names.txt", map);
 
-        System.out.println(map.get("carlos"));
-        System.out.println(map.get("Amanda"));
-        System.out.println(map.get("Mateus"));
+        System.out.println(map.returnColisoes());
+        System.out.println(map.qtdeBuckets());
     }
 }
