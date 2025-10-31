@@ -34,24 +34,39 @@ public class DLL<T>{
         noAtual.previous = no;
     }
 
+
     public void remove(int pos){
-        //resolver excessões
         Node<T> no = getNode(pos);
-        no.previous.next = no.next;
-        no.next.previous = no.previous;
+
+        if (size == 1) {
+            base = null;
+            top = null;
+        } else if (no == base) {
+            base = no.next;
+            base.previous = null;
+        } else if (no == top) {
+            top = no.previous;
+            top.next = null;
+        } else {
+            no.previous.next = no.next;
+            no.next.previous = no.previous;
+        }
+        size--;
     }
+
 
     public boolean remove(T element){
         Node<T> temp = base;
         int idx = 0;
-        while (true){
+        while (temp != null){
             if (element.equals(temp.element) ){
-                remove(idx  );
+                remove(idx);
                 return true;
             }
             temp = temp.next;
             idx++;
         }
+        return false;
     }
 
     public boolean isEmpty(){
@@ -74,6 +89,10 @@ public class DLL<T>{
 
 
     private Node getNode(int pos){
+        if (pos < 0 || pos >= size) {
+            throw new IndexOutOfBoundsException("Posição inválida: " + pos);
+        }
+
         int half = size / 2;
         if (pos <= half){
             int idx = 0;
@@ -104,5 +123,16 @@ public class DLL<T>{
             System.out.println(temp.getElement());
             temp = temp.next;
         }
+    }
+
+    public boolean contains(T element) {
+        Node<T> temp = base;
+        while (temp != null) {
+            if (element.equals(temp.element)) {
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
     }
 }

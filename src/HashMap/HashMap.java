@@ -7,10 +7,10 @@ public abstract class HashMap {
     protected int capacity;
     protected int nColisoes;
 
-    protected static final double LOAD_FACTOR_THRESHOLD = 0.75;
+    protected static final double porcentagem_recalc = 0.75;
 
     public HashMap() {
-        this.capacity = 32; // Capacidade inicial
+        this.capacity = 32;
         this.hashTable = (DLL<String>[]) new DLL[this.capacity];
         this.size = 0;
         this.nColisoes = 0;
@@ -45,7 +45,7 @@ public abstract class HashMap {
     }
 
     public void put(String key) {
-        if ((double) this.size / this.capacity >= LOAD_FACTOR_THRESHOLD) {
+        if ((double) this.size / this.capacity >= porcentagem_recalc) {
             rehash();
         }
 
@@ -61,10 +61,11 @@ public abstract class HashMap {
 
     public Object get(String key) {
         int valor = hashFunction(key);
-        if (hashTable[valor] != null) {
-            return valor;
+        DLL<String> list = hashTable[valor];
+
+        if (list != null && list.contains(key)) {
+            return key;
         } else {
-            System.out.println("Elemento não encontrado");
             return null;
         }
     }
