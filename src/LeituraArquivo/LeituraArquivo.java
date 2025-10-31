@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class LeituraArquivo {
 
-    public static void carregarArquivo(String caminho, HashMapFunction1 mapa) {
+    public static long carregarArquivo(String caminho, HashMap mapa) {
         long inicio = System.currentTimeMillis();
 
         try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
@@ -17,10 +17,7 @@ public class LeituraArquivo {
                 linha = linha.trim();
                 if (!linha.isEmpty()) {
                     String[] partes = linha.split("\\s+");
-
                     String key = partes[0];
-                    String value = (partes.length > 1) ? partes[1] : "";
-
                     mapa.put(key);
                 }
             }
@@ -28,10 +25,35 @@ public class LeituraArquivo {
             long fim = System.currentTimeMillis();
             long duracao = fim - inicio;
 
-            System.out.println("Arquivo carregado com sucesso!");
-            System.out.println("Tempo total de inserção: " + duracao + " ms");
+            System.out.println("Arquivo carregado no mapa (" + mapa.getClass().getSimpleName() + ") com sucesso!");
+
+            return duracao;
+
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            return -1;
+        }
+    }
+
+    public static long testarBusca(String caminho, HashMap mapa) {
+        long inicio = System.currentTimeMillis();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                linha = linha.trim();
+                if (!linha.isEmpty()) {
+                    mapa.get(linha);
+                }
+            }
+
+            long fim = System.currentTimeMillis();
+            return fim - inicio;
+
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo para busca: " + e.getMessage());
+            return -1;
         }
     }
 }

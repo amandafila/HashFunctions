@@ -3,66 +3,53 @@ package HashMap;
 public class Contagem {
 
     public static int produtoVogaisConsoantes(String texto) {
-        int vogais = 0;
-        int consoantes = 0;
-        texto = texto.toLowerCase();
+        texto = texto == null ? "" : texto.toLowerCase();
+        int h = 0;
 
         for (int i = 0; i < texto.length(); i++) {
             char c = texto.charAt(i);
+            if (c < 'a' || c > 'z') continue;
 
-            if (c >= 'a' && c <= 'z') {
-                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
-                    vogais++;
-                } else {
-                    consoantes++;
-                }
-            }
+            int peso = (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') ? 3 : 7;
+
+            int valorChar = (c - 'a' + 1);
+
+            h = h * 31 + peso * valorChar;
         }
 
-        return (vogais + 7 * consoantes * 12) % 32;
+        h ^= (h >>> 16);
+
+        return h & 0x7fffffff;
     }
 
 
     public static int somaPesosVogaisMaisConsoantes(String texto) {
-        int somaVogais = 0;
-        int consoantes = 0;
-        texto = texto.toLowerCase();
+        texto = texto == null ? "" : texto.toLowerCase();
+        int h = 0;
 
         for (int i = 0; i < texto.length(); i++) {
             char c = texto.charAt(i);
+            if (c < 'a' || c > 'z') continue;
 
-            if (c >= 'a' && c <= 'z') {
-                switch (c) {
-                    case 'a':
-                        somaVogais += 2;
-                        break;
-                    case 'e':
-                        somaVogais += 3;
-                        break;
-                    case 'i':
-                        somaVogais += 5;
-                        break;
-                    case 'o':
-                        somaVogais += 11;
-                        break;
-                    case 'u':
-                        somaVogais += 7;
-                        break;
-                    default:
-                        consoantes++;
-                        break;
-                }
+            int peso;
+            switch (c) {
+                case 'a': peso = 2; break;
+                case 'e': peso = 3; break;
+                case 'i': peso = 5; break;
+                case 'o': peso = 11; break;
+                case 'u': peso = 7; break;
+                default:  peso = 1;  break;
             }
+
+            int contrib = peso * (i + 1) + (c - 'a');
+
+            h = h * 131 ^ contrib;
         }
 
-        return (somaVogais + consoantes) % 32;
+        h ^= (h >>> 13);
+
+        return h & 0x7fffffff;
     }
-
-
-
-
-
-
 
 
 }
